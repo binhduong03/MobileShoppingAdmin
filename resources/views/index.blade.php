@@ -172,8 +172,10 @@
                <a
                 class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 
                   {{ Request::is('Admin/all-product') ? 'text-gray-800 dark:text-gray-200' : 'text-gray-500' }}"
-                href="{{ URL::to('Admin/all-product') }}"
-              >
+                href="{{ URL::to('Admin/all-product') }}">
+              @if(Request::is('Admin/all-product'))
+                <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>
+              @endif
                 <svg
                   class="w-5 h-5"
                   aria-hidden="true"
@@ -197,11 +199,11 @@
                 class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
                 aria-hidden="true"
               ></span>
+
                <a
                 class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 
                   {{ Request::is('Admin/all-user') ? 'text-gray-800 dark:text-gray-200' : 'text-gray-500' }}"
-                href="{{ URL::to('Admin/all-user') }}"
-              >
+                href="{{ URL::to('Admin/all-user') }}">
                 <svg
                   class="w-5 h-5"
                   aria-hidden="true"
@@ -247,12 +249,11 @@
               </a>
             </li>
             <li class="relative px-6 py-3">
-              <span
-                class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
-                aria-hidden="true"
-              ></span>
+              @if(Request::is('Admin/all-contact'))
+                <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>
+              @endif
               <a
-                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 {{ Request::is('Admin/all-contact') ? 'text-gray-800 dark:text-gray-200' : 'text-gray-500' }}"
                 href="{{URL::to('Admin/all-contact')}}"
               >
                 <svg

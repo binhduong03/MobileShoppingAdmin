@@ -55,3 +55,16 @@ Route::post('Admin/save-user', [UserController::class, 'save_user']);
 Route::get('Admin/edit-user/{id}', [UserController::class, 'edit_user']);
 Route::post('Admin/update-user/{id}', [UserController::class, 'update_user']);
 Route::get('delete-user/{id}', [UserController::class, 'delete_user']);
+
+
+//Menu
+Route::get('Admin/all-menu', [MenuController::class, 'all_menu']);
+Route::get('Admin/add-menu', [MenuController::class, 'add_menu']);
+Route::post('Admin/save-menu', [MenuController::class, 'save_menu']);
+Route::get('Admin/edit-menu/{id}', [MenuController::class, 'edit_menu']);
+Route::post('Admin/update-menu/{id}', [MenuController::class, 'update_menu']);
+Route::get('delete-menu/{id}', [MenuController::class, 'delete_menu']);
+
+//Product
+Route::get('Admin/all-product', [ProductController::class,'all_product']);
+
