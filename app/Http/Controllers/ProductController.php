@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Session;
@@ -25,13 +26,22 @@ class ProductController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'price' => 'required|numeric',
-            'image' => 'required|string',
             'description' => 'nullable|string',
             'type' => 'required|integer',
+            'is_active' => 'required|integer'
         ]);
 
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('/backend/assets/img/product'), $imageName);
+            $data['image'] = $imageName;
+        } elseif ($request->filled('image')) {
+            $data['image'] = $request->image; 
+        }
+
         Product::create($data);
-        return Redirect::to('/all-product')->with('message', 'Thêm sản phẩm thành công');
+        return Redirect::to('Admin/all-product')->with('message', 'Thêm sản phẩm thành công');
     }
 
     public function edit_product($id) {
@@ -45,17 +55,30 @@ class ProductController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'price' => 'required|numeric',
-            'image' => 'required|string',
             'description' => 'nullable|string',
             'type' => 'required|integer',
+            'is_active' => 'required|integer'
         ]);
 
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('/backend/assets/img/product'), $imageName);
+            $data['image'] = $imageName;
+        } elseif ($request->filled('image')) {
+            $data['image'] = $request->image; 
+        } else {
+            // Nếu không gửi ảnh mới -> giữ nguyên ảnh cũ
+            $data['image'] = $product->image;
+        }
+
         $product->update($data);
-        return Redirect::to('/all-product')->with('message', 'Cập nhật sản phẩm thành công');
+        return Redirect::to('Admin/all-product')->with('message', 'Cập nhật sản phẩm thành công');
     }
+
 
     public function delete_product($id) {
         Product::destroy($id);
-        return Redirect::to('/all-product')->with('message', 'Xóa sản phẩm thành công');
+        return Redirect::to('Admin/all-product')->with('message', 'Xóa sản phẩm thành công');
     }
 }
