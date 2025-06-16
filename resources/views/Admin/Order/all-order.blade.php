@@ -1,5 +1,6 @@
 @extends('index')
 @section('index-content')
+	
 <div class="container grid px-6 mx-auto">
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Tables</h2>
     <!-- CTA -->
@@ -12,66 +13,86 @@
         </div>
         <span>View more &RightArrow;</span>
     </a>
+    <?php
+        if ($message = Session::get('success')) {
+            echo '<div id="notification" class="notification success">' . $message . '</div>';
+        }
+        if ($message = Session::get('error')) {
+            echo '<div id="notification" class="notification error">' . $message . '</div>';
+        }
+    ?>
 
     <!-- With avatar -->
-    <div class="flex justify-between items-center mb-4">
-        <h4 class="mb-0 text-lg font-semibold text-gray-600 dark:text-gray-300">Table with avatars</h4>
-        <a href="{{ URL::to('Admin/add-product') }}" style="display: inline-block; padding: 8px 16px; background-color: #0d6efd; color: #fff; border-radius: 4px; text-decoration: none;" title="Thêm mới">
-            <i class="fas fa-plus"></i> Thêm mới
-        </a>
-    </div>
+
 
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
         <div class="w-full overflow-x-auto">
             <table class="w-full whitespace-no-wrap">
                 <thead>
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                        <th class="px-4 py-3">Hình ảnh</th>
-                        <th class="px-4 py-3">Tên sản phẩm</th>
-                        <th class="px-4 py-3">Giá tiền</th>
-                        <th class="px-4 py-3">Mô tả</th>
-                        <th class="px-4 py-3">Loại sản phẩm</th>
+                        <th class="px-4 py-3">Họ tên</th>
+                        <th class="px-4 py-3">Số điện thoại</th>
                         <th class="px-4 py-3">Trạng thái</th>
+                        <th class="px-4 py-3">Tổng tiền</th>
                         <th class="px-4 py-3">Hành động</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                    @foreach($all_product as $key => $product)
-                    <tr class="text-gray-700 dark:text-gray-400">
-                        
-                        <td class="px-4 py-3 text-sm">
-                            @if($product->image)
-                                @if(Str::startsWith($product->image, 'http'))
-                                    <img src="{{ $product->image }}" width="60" alt="Menu Image">
-                                @else
-                                   <img src="{{asset('public/backend/assets/img/product/' .$product->image)}}" class="avatar avatar-sm me-3 border-radius-lg image-zoom" tabindex="0" alt="productimg">
-                                @endif
-                            @else
-                                <span class="text-red-500">Không có ảnh</span>
-                            @endif
+                    @foreach($all_order as $key => $order)
+                    
 
-                            
+                    <tr class="text-gray-700 dark:text-gray-400">
+                        <td class="px-4 py-3 text-sm">{{ $order->user->username}}</td>
+                        <td class="px-4 py-3 text-sm">{{ $order->user->phone}}</td>
+                        <td class="px-4 py-3 text-sm status-cell" data-order-id="{{ $order->order_id }}" data-status="{{ $order->status }}">
+                            <div class="d-flex gap-2">
+                                <form method="POST" action="{{ URL::to('update-status') }}">
+                                    @csrf
+                                    <input type="hidden" name="order_id" value="{{ $order->order_id }}">
+                                    <input type="hidden" name="status" value="0">
+                                    <button type="submit" class="btn {{ $order->status == 0 ? 'btn-warning' : 'btn-outline-warning' }}">Chờ xử lý</button>
+                                </form>
+                                <form method="POST" action="{{ URL::to('update-status') }}">
+                                    @csrf
+                                    <input type="hidden" name="order_id" value="{{ $order->order_id}}">
+                                    <input type="hidden" name="status" value="1">
+                                    <button type="submit" class="btn {{ $order->status == 1 ? 'btn-info' : 'btn-outline-info' }}">Đang vận chuyển</button>
+                                </form>
+                                <form method="POST" action="{{ URL::to('update-status') }}">
+                                    @csrf
+                                    <input type="hidden" name="order_id" value="{{ $order->order_id }}">
+                                    <input type="hidden" name="status" value="2">
+                                    <button type="submit" class="btn {{ $order->status == 2 ? 'btn-success' : 'btn-outline-success' }}">Đang giao hàng</button>
+                                </form>
+                                <form method="POST" action="{{ URL::to('update-status') }}">
+                                    @csrf
+                                    <input type="hidden" name="order_id" value="{{ $order->order_id }}">
+                                    <input type="hidden" name="status" value="3">
+                                    <button type="submit" class="btn {{ $order->status == 3 ? 'btn-success' : 'btn-outline-success' }}">Đã giao</button>
+                                </form>
+                                <form method="POST" action="{{ URL::to('update-status') }}">
+                                    @csrf
+                                    <input type="hidden" name="order_id" value="{{ $order->order_id }}">
+                                    <input type="hidden" name="status" value="4">
+                                    <button type="submit" class="btn {{ $order->status == 4 ? 'btn-danger' : 'btn-outline-danger' }}">Đã hủy</button>
+                                </form>
                             </div>
                         </td>
-                        <td class="px-4 py-3 text-sm">{{ $product->name}}</td>
-                        <td class="px-4 py-3 text-sm">{{ $product->price }}</td>
-                        <td class="px-4 py-3 text-sm">{{ $product->description}}</td>
-                        <td class="align-middle text-center text-sm">
-                            <span class="badge badge-sm 
-                                {{ $product->type == 0 ? 'bg-primary' : ($product->type == 1 ? 'bg-success' : 'bg-secondary') }}">
-                                {{ $product->type == 0 ? 'Điện thoại' : ($product->type == 1 ? 'Laptop' : 'Khác') }}
-                            </span>
-                          </td>
-                        <td class="px-4 py-3 text-sm text-center">
-                            <i class="{{ $product->is_active ? 'fas fa-toggle-on fa-2x text-primary' : 'fas fa-toggle-off fa-2x text-danger' }}"></i> <!-- Icon -->
-                        </td>
+
+
+
+
+                        <td class="px-4 py-3 text-sm">{{($order->total_amount).' '.'VNĐ'}}</td>
+                         
+                        
+                      </td>
                         <td class="px-4 py-3">
-                            <!-- Nút chỉnh sửa -->
-                            <a href="{{ URL::to('Admin/edit-product/'. $product->product_id) }}" class="text-primary" title="Chỉnh sửa">
-                                <i class="fas fa-edit"></i>
+                            <!-- Nút xem -->
+                            <a href="{{ URL::to('Admin/detail-order/'. $order->order_id) }}" class="text-primary" title="Chỉnh sửa">
+                                <i class="fas fa-eye"></i>
                             </a>
                             <!-- Nút xóa -->
-                             <a href="{{ URL::to('delete-product/'.$product->product_id) }}" onclick="return confirm('Bạn có chắc chắn muốn xóa?')" class="text-danger ml-2" title="Xóa">
+                            <a href="{{ URL::to('delete-order/'. $order->order_id) }}" class="text-danger ml-2" title="Xóa">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </td>
@@ -128,4 +149,5 @@
         </div>
     </div>
 </div>
+
 @endsection
