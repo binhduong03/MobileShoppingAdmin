@@ -19,8 +19,10 @@ Route::get('/', function () {
 //BACKEND
 Route::get('/admin', [AdminController::class, 'admin']);
 
-
+//Liên hệ
 Route::get('/all-contact', [ContactController::class,'all_contact']);
 
+//Sản phẩm
+Route::get('/all-contact', [ContactController::class,'all_contact']);
 
 
