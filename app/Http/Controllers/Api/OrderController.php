@@ -76,7 +76,6 @@ class OrderController extends Controller
                     'order_id' => $detail->order_id,
                     'product_id' => $detail->product_id,
                     'quantity' => $detail->quantity,
-                    
                     'name' => $product->name ?? null,
                     'image' => $product->image ?? null,
                     'price' => $product->price ?? null
