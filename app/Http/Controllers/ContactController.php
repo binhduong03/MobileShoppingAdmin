@@ -19,4 +19,24 @@ class ContactController extends Controller
         return view('Admin.Contact.all-contact')
         ->with('all_contact', $all_contact);
     }
+
+    public function detail_contact($id){
+        
+        $detail_contact = Contact::with('user')->where('contact_id', $id)->first();
+
+        return view('Admin.Contact.detail-contact')
+        ->with('detail_contact', $detail_contact);
+    
+    }
+
+    public function update_isread($contactId)
+    {
+        $contact = Contact::find($contactId);
+        if ($contact) {
+            $contact->is_read = 1; 
+            $contact->save();
+        }
+        return Redirect::to('Admin/all-contact');
+    
+    }
 }

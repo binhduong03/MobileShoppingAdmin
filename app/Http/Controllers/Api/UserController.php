@@ -76,6 +76,7 @@ class UserController extends Controller
             'pass' => $request->pass,
             'username' => $request->username,
             'phone' => $request->phone,
+            'avatar' => 'user.jpg',
             'uid' => $request->uid,
             'role' => $request->role ?? 0
         ]);
