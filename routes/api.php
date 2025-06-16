@@ -38,4 +38,7 @@ Route::post('/place-order', [OrderController::class, 'placeOrder']);
 //lịch sử đơn hàng
 Route::post('/history', [OrderController::class, 'getOrdersByUser']);
 
+//Huỷ đơn hàng
+Route::post('/cancel-order', [OrderController::class, 'cancelOrder']);
+
 

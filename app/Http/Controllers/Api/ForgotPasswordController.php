@@ -28,7 +28,7 @@ class ForgotPasswordController extends Controller
         $email = $user->email;
         $pass = $user->pass; 
 
-        $link = "<a href='http://192.168.0.101:81/MobileShopping/reset-password-form?key={$email}&reset={$pass}'>Nhấn để đặt lại mật khẩu</a>";
+        $link = "<a href='http://192.168.1.7:81/MobileShopping/reset-password-form?key={$email}&reset={$pass}'>Nhấn để đặt lại mật khẩu</a>";
 
 
         try {
