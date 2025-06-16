@@ -402,7 +402,7 @@
               ></span>
               <a
                 class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                href="{{URL::to('/all-product')}}"
+                href="{{URL::to('admin/all-product')}}"
               >
                 <svg
                   class="w-5 h-5"
@@ -482,7 +482,7 @@
               ></span>
               <a
                 class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                href="{{URL::to('all-contact')}}"
+                href="{{URL::to('admin/all-contact')}}"
               >
                 <svg
                   class="w-5 h-5"

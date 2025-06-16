@@ -22,7 +22,8 @@ class OrderController extends Controller
                 'phone' => $request->phone,
                 'email' => $request->email,
                 'quantity' => $request->quantity,
-                'total_amount' => $request->total_amount
+                'total_amount' => $request->total_amount,
+                'status' => 0 //0:Chờ duyệt; 1:Đang vận chuyển; 2: Đang giao hàng; 3: Đã giao; 4:Đã huỷ
             ]);
 
             // 2. Duyệt chi tiết đơn hàng (JSON dạng mảng)
@@ -88,6 +89,7 @@ class OrderController extends Controller
                 'address' => $order->address,
                 'phone' => $order->phone,
                 'total_amount' => $order->total_amount,
+                'status' => $order->status,
                 'item' => $item
             ];
         });
@@ -98,5 +100,30 @@ class OrderController extends Controller
             'result' => $result
         ]);
     }
+
+    public function cancelOrder(Request $request)
+    {
+        $orderId = $request->input('order_id');
+        $status = $request->input('status');
+
+        $order = Order::find($orderId);
+
+        if (!$order) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Không tìm thấy đơn hàng'
+            ]);
+        }
+
+        // Cập nhật trạng thái về huỷ đơn hoặc chờ duyệt 
+        $order->status = $status;
+        $order->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Huỷ đơn hàng thành công'
+        ]);
+    }
+
 }
 

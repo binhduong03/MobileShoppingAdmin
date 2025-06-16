@@ -19,7 +19,8 @@ class Order extends Model
         'phone',
         'email',
         'quantity',
-        'total_amount'
+        'total_amount',
+        'status'
     ];
 
     // Quan hệ với bảng User
